@@ -82,16 +82,16 @@ function init_app($di)
     $app->before(function () use ($app) {
         ob_start();
 
-        if (is_debugging($app)) {
-            return true;
-        }
+        // if (is_debugging($app)) {
+        //     return true;
+        // }
 
         // $requestUrl = $_SERVER['REQUEST_URI'];
         // if (preg_match('/^\/open\/.*/', $requestUrl) || $requestUrl == "/") {
         //     return true;
         // }
 
-        is_valid_access($app);
+        // is_valid_access($app);
     });
 
     $app->after(function () use ($app) {
@@ -149,12 +149,12 @@ function send_response($app, $ctx)
 
 function is_debugging($app)
 {
-    if ($app->config->env !== 'production') {
-        $tdd = $app->request->getHeader('HTTP_X_TDD');
-        if ($tdd && $tdd === 'cff246d8280983c0c55c2f1280992019') {
-            return true;
-        }
-    }
+    // if ($app->config->env !== 'production') {
+    //     $tdd = $app->request->getHeader('HTTP_X_TDD');
+    //     if ($tdd && $tdd === 'cff246d8280983c0c55c2f1280992019') {
+    //         return true;
+    //     }
+    // }
 }
 
 function is_valid_access($app)
