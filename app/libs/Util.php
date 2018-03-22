@@ -40,4 +40,10 @@ class Util
     {
         return isset($array[$field]) ? $array[$field] : $default;
     }
+
+    public static function getWxSessionId($appid, $secret) {
+        $url='https://api.weixin.qq.com/sns/jscode2session?appid='. $appid .'&secret='. $secret .'&js_code='. $code .'&grant_type=authorization_code';
+
+        
+    }
 }

@@ -21,5 +21,6 @@ return [
     'deploy' => 'testing',
     'picture' => [
         'path' => __DIR__ . "/../../public/upload/",
-    ]
+    ],
+    'wxconfig' => require(__DIR__ . "/wx.php"),
 ];
