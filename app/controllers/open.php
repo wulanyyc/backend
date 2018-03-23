@@ -30,6 +30,7 @@ $app->post('/open/phone', function () use ($app) {
     $params = json_decode($app->request->getRawBody(), true);
 
     $user = $app->util->getUser($app, $params['session']);
+    return $user;
 
     $pc = new WxBizDataCrypt($app->config->wxconfig['appid'], $user[1]);
     $errCode = $pc->decryptData($params['encryptedData'], $params['iv'], $data);
