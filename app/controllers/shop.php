@@ -18,7 +18,9 @@ $app->post('/shop/add', function () use ($app) {
         $ar->$key = $value;
     }
 
-    $ar->save();
-    
-    return $ar->id;
+    if ($ar->save() == true) {
+        return $ar->id;
+    } else {
+        return 0;
+    }
 });
