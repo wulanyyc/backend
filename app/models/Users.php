@@ -5,7 +5,7 @@ namespace Shop\Model;
 use Phalcon\Mvc\Model;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
-use Phalcon\Validation\Validator\Regex;
+use Phalcon\Mvc\Model\Validator\Uniqueness;
 
 class Users extends Model
 {
@@ -15,21 +15,17 @@ class Users extends Model
 
     public function validation() {
         $validator = new Validation();
-        $validator->add('nickname', new PresenceOf(
+        $validator->add('openid', new PresenceOf(
             [
-                "message" => "nickname is required",
+                "message" => "openid is required",
             ]
         ));
 
-        $validator->add(
-            "phone",
-            new Regex(
-                [
-                    "message" => "The phone is required",
-                    "pattern" => "/^1[34578]\d{9}$/",
-                ]
-            )
-        );
+        $validator->add('openid', new Uniqueness(
+            [
+                "message" => "openid is already exsit",
+            ]
+        ));
 
         return $this->validate($validator);
     }
