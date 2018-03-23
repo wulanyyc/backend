@@ -8,8 +8,8 @@ $app->get('/open/session', function () use ($app) {
     $result = $app->util->getWxSessionId($app, $wxconfig['appid'], $wxconfig['appsecret'], $code);
 
     if (isset($result['session_key'])) {
-        $exsit = Users::find()->where(['openid' => $result['openid']])->count();
-        if ($exsit == 0) {
+        $exsit = Users::find(['openid' => $result['openid']]);
+        if (count($exsit) == 0) {
             $ar = new Users();
             $ar->openid  = $result['openid'];
             $ar->unionid = $result['unionid'];
