@@ -27,5 +27,16 @@ $app->get('/open/session', function () use ($app) {
 
 
 $app->post('/open/phone', function () use ($app) {
-    return $app->request->getRawBody();
+    $params = json_decode($app->request->getRawBody(), true);
+
+    $user = $app->util->getUser($app, $params['session']);
+
+    $pc = new WXBizDataCrypt($app->config->wxconfig['appid'], $user[1]);
+    $errCode = $pc->decryptData($params['encryptedData'], $params['iv'], $data);
+
+    if ($errCode == 0) {
+        return $data;
+    } else {
+        return $errCode;
+    }
 });

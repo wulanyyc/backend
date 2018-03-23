@@ -46,4 +46,9 @@ class Util
 
         return $app->curl->get($url, 60);
     }
+
+    public static function getUser($app, $session) {
+        $result = $app->redis->get($session);
+        return explode('_', $result);
+    }
 }
