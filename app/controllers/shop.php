@@ -3,41 +3,22 @@ use Shop\Model\Shops;
 use Shop\Model\Users;
 
 // TODO店铺唯一性检测
-$app->post('/shop/apply/{id:\d+}', function ($id) use ($app) {
-    $params = $app->request->getPost();
+$app->post('/shop/add/', function () use ($app) {
+    $params = json_decode($app->request->getRawBody(), true);
+    $userInfo = $app->util->getUser($app, $params['session']);
+    $openid   = $userInfo['openid'];
+    $user = Users::findFirst(['openid' => $openid]);
+    $uid  = $user->id;
+
+    unset($params['session']);
+
     $ar = new Shops();
-    $ar->user_id = $id;
-    $ar->date = date("Ymd", time());
+    $ar->uid = $uid;
     foreach($params as $key => $value) {
-        if ($key == 'name') {
-            $ar->name = $value;
-        }
-
-        if ($key == 'src') {
-            $ar->shop_img_url = $value;
-        }
+        $ar->key = $value;
     }
 
-    if (!$ar->save()) {
-        return $ar->getMessages();
-    } else {
-        $up = Users::findFirst($id);
-        $up->user_type = 1;
-        $up->save();
-        return 'ok';
-    }
-});
-
-$app->get('/shop/{uid:\d+}', function ($uid) use ($app) {
-    $ar = Shops::findFirst("user_id=" . $uid);
-
-    if ($ar) {
-        $ret = [];
-        $ret['name'] = $ar->name;
-        $ret['shop_img_url'] = $ar->shop_img_url;
-
-        return $ret;
-    } else {
-        throw new BusinessException(2000, '没有商铺');
-    }
+    $ar->save();
+    
+    return $ar->id;
 });
