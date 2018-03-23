@@ -49,6 +49,6 @@ class Util
 
     public static function getUser($app, $session) {
         $result = $app->redis->get($session);
-        return explode('_', $result);
+        return json_decode($result, true);
     }
 }

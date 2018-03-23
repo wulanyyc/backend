@@ -18,7 +18,7 @@ $app->get('/open/session', function () use ($app) {
 
         $key = md5($result['openid'] . $result['session_key']);
         unset($result['unionid']);
-        $app->redis->setex($key, 86400 * 7, json_encode($result));
+        $app->redis->setex($key, 86400 * 2, json_encode($result));
 
         return $key;
     } else {
@@ -29,8 +29,6 @@ $app->get('/open/session', function () use ($app) {
 
 $app->post('/open/phone', function () use ($app) {
     $params = json_decode($app->request->getRawBody(), true);
-
-    $user = json_decode($app->util->getUser($app, $params['session']), true);
 
     $pc = new WxBizDataCrypt($app->config->wxconfig['appid'], $user['session_key']);
     $errCode = $pc->decryptData($params['encryptedData'], $params['iv'], $data);
