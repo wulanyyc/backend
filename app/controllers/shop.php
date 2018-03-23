@@ -15,7 +15,7 @@ $app->post('/shop/add', function () use ($app) {
     $ar = new Shops();
     $ar->uid = $uid;
     foreach($params as $key => $value) {
-        $ar->key = $value;
+        $ar->$key = $value;
     }
 
     $ar->save();
