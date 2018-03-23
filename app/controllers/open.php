@@ -26,6 +26,6 @@ $app->get('/open/session', function () use ($app) {
 });
 
 
-$app->get('/open/phone', function () use ($app) {
+$app->post('/open/phone', function () use ($app) {
     return $app->request->getRawBody();
 });
