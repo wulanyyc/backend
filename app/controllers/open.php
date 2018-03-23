@@ -35,7 +35,8 @@ $app->post('/open/phone', function () use ($app) {
     $errCode = $pc->decryptData($params['encryptedData'], $params['iv'], $data);
 
     if ($errCode == 0) {
-        return $data['purePhoneNumber'];
+        $ret = json_decode($data, true);
+        return $ret['purePhoneNumber'];
     } else {
         return $errCode;
     }
