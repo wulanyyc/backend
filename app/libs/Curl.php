@@ -1,7 +1,7 @@
 <?php
 
 //get data 
-class Curl{
+class Curl {
 	private $ch;
 
 	/**
