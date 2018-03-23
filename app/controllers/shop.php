@@ -10,9 +10,11 @@ $app->post('/shop/add', function () use ($app) {
     $user = Users::findFirst(['openid' => $openid]);
     $uid  = $user->id;
 
-    return $uid;
+    // return $uid;
 
     unset($params['session']);
+
+    return $params;
 
     $ar = new Shops();
     $ar->uid = $uid;
