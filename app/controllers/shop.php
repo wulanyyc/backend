@@ -3,7 +3,7 @@ use Shop\Model\Shops;
 use Shop\Model\Users;
 
 // TODO店铺唯一性检测
-$app->post('/shop/add/', function () use ($app) {
+$app->post('/shop/add', function () use ($app) {
     $params = json_decode($app->request->getRawBody(), true);
     $userInfo = $app->util->getUser($app, $params['session']);
     $openid   = $userInfo['openid'];
