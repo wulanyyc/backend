@@ -1,5 +1,6 @@
 <?php
 use Shop\Model\Users;
+use Shop\Model\Shops;
 
 $app->get('/open/session', function () use ($app) {
     $code     = $app->request->getQuery('code');
@@ -22,9 +23,14 @@ $app->get('/open/session', function () use ($app) {
 
         $ret = [];
         $ret['session'] = $key;
+
         $info = Users::findFirst(['openid' => $result['openid']]);
         if (!empty($info)) {
             $ret['uid'] = $info->id;
+            $shopInfo = Shops::findFirst(['uid' => $info->id]);
+            if (!empty($shopInfo)) {
+                $ret['sid'] = $shopInfo->id;
+            }
         }
 
         return $ret;
