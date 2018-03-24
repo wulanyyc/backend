@@ -20,7 +20,14 @@ $app->get('/open/session', function () use ($app) {
         unset($result['unionid']);
         $app->redis->setex($key, 86400 * 2, json_encode($result));
 
-        return $key;
+        $ret = [];
+        $ret['session'] = $key;
+        $info = Users::findFirst(['openid' => $result['openid']]);
+        if (!empty($info)) {
+            $ret['uid'] = $info->id;
+        }
+
+        return $ret;
     } else {
         return '';
     }

@@ -1,3 +1,4 @@
 app/configs/wx.php
+app/configs/db.php
 .DS_Store
 */.DS_Store
