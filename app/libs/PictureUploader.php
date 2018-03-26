@@ -1,6 +1,6 @@
 <?php
 
-class PictureUploader
+class FileUploader
 {
     private $app;
     public $max_size = 2097152; //2M
@@ -33,12 +33,7 @@ class PictureUploader
 
     public static function parseHash($hash)
     {
-        return sprintf(
-            "%s/%s/%s",
-            substr($hash, 0, 5),
-            substr($hash, 5, 5),
-            substr($hash, 10)
-        );
+        return date('Ymd', time()) . "/" . $hash;
     }
 
     private function parseParams($params)
@@ -46,13 +41,13 @@ class PictureUploader
         if (isset($params['max_size'])) {
             $this->max_size = $params['max_size'];
         }
-        if (isset($param['max_width'])) {
-            $this->max_width = $params['max_width'];
-        }
-        if (isset($param['max_height'])) {
-            $this->max_height = $params['max_height'];
-        }
 
+        // if (isset($param['max_width'])) {
+        //     $this->max_width = $params['max_width'];
+        // }
+        // if (isset($param['max_height'])) {
+        //     $this->max_height = $params['max_height'];
+        // }
     }
 
     public function upload($params = [])
@@ -62,41 +57,39 @@ class PictureUploader
         $rows = [];
         $files = $app->request->getUploadedFiles();
         $this->parseParams($params);
-        // $app->logger->debug("test" . count($files));
 
         foreach ($files as $file) {
             $original_name = $file->getName();
             $temp_name = $file->getTempName();
             $size = $file->getSize();
+
             if ($size <= 0) {
                 $errors[$original_name] = ['code' => 1003, 'message' => 'empty file'];
                 continue;
             }
-            if ($size > $this->max_size) {
-                $errors[$original_name] = ['code' => 1201, 'message' => 'size over limit'];
-                continue;
-            }
+
+            // if ($size > $this->max_size) {
+            //     $errors[$original_name] = ['code' => 1201, 'message' => 'size over limit'];
+            //     continue;
+            // }
 
             $mime_type = $file->getRealType();
-            if (!self::isAllowedType($mime_type)) {
-                $errors[$original_name] = ['code' => 1202, 'message' => 'file type is not allowed'];
-                continue;
-            }
 
-            $image = new \Phalcon\Image\Adapter\GD($temp_name);
-            $app->logger->debug(strval($image->getWidth()));
-            if ($image->getWidth() > $this->max_width) {
-                $errors[$original_name] = ['code' => 1203, 'message' => 'width is over limit'];
-                continue;
-            }
-            $app->logger->debug(strval($image->getHeight()));
-            if ($image->getHeight() > $this->max_height) {
-                $errors[$original_name] = ['code' => 1204, 'message' => 'height is over limit'];
-                continue;
-            }
+            // $image = new \Phalcon\Image\Adapter\GD($temp_name);
+            // $app->logger->debug(strval($image->getWidth()));
+            // if ($image->getWidth() > $this->max_width) {
+            //     $errors[$original_name] = ['code' => 1203, 'message' => 'width is over limit'];
+            //     continue;
+            // }
+
+            // $app->logger->debug(strval($image->getHeight()));
+            // if ($image->getHeight() > $this->max_height) {
+            //     $errors[$original_name] = ['code' => 1204, 'message' => 'height is over limit'];
+            //     continue;
+            // }
 
             $hash = md5_file($temp_name);
-            $filename = $app->config->picture->path . self::parseHash($hash) . self::fileExtension($mime_type);
+            $filename = $app->config->picture->path . self::parseHash($hash) . '.' . $mime_type;
             $app->logger->debug($filename);
 
             if (!file_exists($filename)) {
@@ -111,13 +104,7 @@ class PictureUploader
             }
             
             $rows[] = [
-                // 'hash' => $hash,
-                // 'mime_type' => $mime_type,
-                // 'size' => $size,
-                'width' => $image->getWidth(),
-                'height' => $image->getHeight(),
-                // 'original_name' => urldecode(pathinfo(urlencode($original_name), PATHINFO_FILENAME)),
-                'file_name' => self::parseHash($hash) . self::fileExtension($mime_type)
+                'file_name' => self::parseHash($hash) . '.' . $mime_type,
             ];
 
         }
