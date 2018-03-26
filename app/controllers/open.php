@@ -42,7 +42,7 @@ $app->post('/open/phone', function () use ($app) {
 });
 
 // 用户上传
-$app->post('/open/upload', function ($id) use ($app) {
+$app->post('/open/upload', function () use ($app) {
     $uploader = new PictureUploader($app);
     return $uploader->upload();
 });
