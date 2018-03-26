@@ -15,7 +15,7 @@ $app->post('/user/add', function () use ($app) {
     $ar->unionid = $result['unionid'];
 
     foreach($params as $key => $value) {
-        $ar->key = $value;
+        $ar->$key = $value;
     }
 
     if ($ar->save() == true) {
