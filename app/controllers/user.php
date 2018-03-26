@@ -8,6 +8,8 @@ $app->post('/user/add', function () use ($app) {
     $resultStr = $app->redis->get($params['session']);
     $result = json_decode($resultStr, true);
 
+    return $result;
+
     unset($params['session']);
 
     $ar = new Users();
