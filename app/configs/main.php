@@ -8,7 +8,7 @@ return [
     ],
     'mapper' => [],
     'salt' => 'yyctest',
-    'picture' => [
+    'file' => [
         'path' => __DIR__ . "/../../public/files/",
     ],
     'wxconfig' => require(__DIR__ . "/wx.php"),

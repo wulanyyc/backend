@@ -3,9 +3,9 @@
 class FileUploader
 {
     private $app;
-    public $max_size = 2097152; //2M
-    public $max_width = 1920;
-    public $max_height = 1200;
+    public $max_size = 1048576; //10M
+    // public $max_width = 1920;
+    // public $max_height = 1200;
 
     public static $allowed_mime_types = [
         'gif' => 'image/gif', 
@@ -77,10 +77,10 @@ class FileUploader
                 continue;
             }
 
-            // if ($size > $this->max_size) {
-            //     $errors[$original_name] = ['code' => 1201, 'message' => 'size over limit'];
-            //     continue;
-            // }
+            if ($size > $this->max_size) {
+                $errors[$original_name] = ['code' => 1201, 'message' => 'size over limit'];
+                continue;
+            }
 
             $mime_type = $file->getRealType();
             if (!self::isAllowedType($mime_type)) {
@@ -102,7 +102,7 @@ class FileUploader
             // }
 
             $hash = md5_file($temp_name);
-            $filename = $app->config->picture->path . self::parseHash($hash) . self::fileExtension($mime_type);
+            $filename = $app->config->file->path . self::parseHash($hash) . self::fileExtension($mime_type);
             $app->logger->debug($filename);
 
             if (!file_exists($filename)) {
