@@ -2,21 +2,26 @@
 use Shop\Model\Users;
 
 //用户认证（手机动态登录）
-$app->get('/user/info/{id:\d+}', function ($id) use ($app) {
-    $data = Users::findFirst($id);
-    return $data;
-});
+$app->post('/user/add', function () use ($app) {
+    $params = json_decode($app->request->getRawBody(), true);
 
-$app->post('/user/info/update/{id:\d+}', function ($id) use ($app) {
-    $params = $app->request->getPost();
-    $ar = Users::findFirst($id);
+    $resultStr = $app->redis->get($params['session']);
+    $result = json_decode($resultStr, true);
+
+    unset($params['session']);
+
+    $ar = new Users();
+    $ar->openid  = $result['openid'];
+    $ar->unionid = $result['unionid'];
+
     foreach($params as $key => $value) {
-        $ar->$key = $value;
+        $ar->key = $value;
     }
 
-    if (!$ar->save()) {
-        return $ar->getMessages();
+    if ($ar->save() == true) {
+        return $ar->id;
     } else {
-        return 'ok';
+        return 0;
     }
 });
+

@@ -9,28 +9,23 @@ $app->get('/open/session', function () use ($app) {
     $result = $app->util->getWxSessionId($app, $wxconfig['appid'], $wxconfig['appsecret'], $code);
 
     if (isset($result['session_key'])) {
-        $exsit = Users::find(['openid' => $result['openid']]);
-        if (count($exsit) == 0) {
-            $ar = new Users();
-            $ar->openid  = $result['openid'];
-            $ar->unionid = $result['unionid'];
-            $ar->save();
-        }
+        $userInfo = Users::findFirst(['openid' => $result['openid']]);
+        // if (empty($userInfo)) {
+        //     $ar = new Users();
+        //     $ar->openid  = $result['openid'];
+        //     $ar->unionid = $result['unionid'];
+        //     $ar->save();
+
+        //     $userInfo = Users::findFirst(['openid' => $result['openid']]);
+        // }
 
         $key = md5($result['openid'] . $result['session_key']);
-        unset($result['unionid']);
         $app->redis->setex($key, 86400 * 2, json_encode($result));
 
         $ret = [];
         $ret['session'] = $key;
-
-        $info = Users::findFirst(['openid' => $result['openid']]);
-        if (!empty($info)) {
-            $ret['uid'] = $info->id;
-            $shopInfo = Shops::findFirst(['uid' => $info->id]);
-            if (!empty($shopInfo)) {
-                $ret['sid'] = $shopInfo->id;
-            }
+        if (!empty($userInfo)) {
+            $ret['uid'] = $userInfo->id;
         }
 
         return $ret;
