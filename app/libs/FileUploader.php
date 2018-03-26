@@ -7,7 +7,16 @@ class FileUploader
     public $max_width = 1920;
     public $max_height = 1200;
 
-    public static $allowed_mime_types = ['gif' => 'image/gif', 'jpg' => 'image/jpeg', 'png' => 'image/png'];
+    public static $allowed_mime_types = [
+        'gif' => 'image/gif', 
+        'jpg' => 'image/jpeg', 
+        'png' => 'image/png',
+        'svg' => 'image/svg+xml',
+        'tif' => 'image/tiff',
+        'mp4' => 'video/mp4',
+        'webm' => 'video/webm',
+        'ogv' => 'video/ogg',
+    ];
 
     public function __construct($app)
     {
@@ -74,6 +83,10 @@ class FileUploader
             // }
 
             $mime_type = $file->getRealType();
+            if (!self::isAllowedType($mime_type)) {
+                $errors[$original_name] = ['code' => 1202, 'message' => 'file type is not allowed'];
+                continue;
+            }
 
             // $image = new \Phalcon\Image\Adapter\GD($temp_name);
             // $app->logger->debug(strval($image->getWidth()));
@@ -89,7 +102,7 @@ class FileUploader
             // }
 
             $hash = md5_file($temp_name);
-            $filename = $app->config->picture->path . self::parseHash($hash) . '.' . $mime_type;
+            $filename = $app->config->picture->path . self::parseHash($hash) . self::fileExtension($mime_type);
             $app->logger->debug($filename);
 
             if (!file_exists($filename)) {
@@ -104,7 +117,7 @@ class FileUploader
             }
             
             $rows[] = [
-                'file_name' => self::parseHash($hash) . '.' . $mime_type,
+                'file_name' => self::parseHash($hash) . self::fileExtension($mime_type),
             ];
 
         }
