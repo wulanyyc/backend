@@ -9,7 +9,7 @@ return [
     'mapper' => [],
     'salt' => 'yyctest',
     'picture' => [
-        'path' => __DIR__ . "/../../public/upload/",
+        'path' => __DIR__ . "/../../public/imgs/",
     ],
     'wxconfig' => require(__DIR__ . "/wx.php"),
 ];

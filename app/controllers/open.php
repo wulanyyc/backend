@@ -10,15 +10,6 @@ $app->get('/open/session', function () use ($app) {
 
     if (isset($result['session_key'])) {
         $userInfo = Users::findFirst(['openid' => $result['openid']]);
-        // if (empty($userInfo)) {
-        //     $ar = new Users();
-        //     $ar->openid  = $result['openid'];
-        //     $ar->unionid = $result['unionid'];
-        //     $ar->save();
-
-        //     $userInfo = Users::findFirst(['openid' => $result['openid']]);
-        // }
-
         $key = md5($result['openid'] . $result['session_key']);
         $app->redis->setex($key, 86400 * 2, json_encode($result));
 
@@ -48,4 +39,10 @@ $app->post('/open/phone', function () use ($app) {
     } else {
         return $errCode;
     }
+});
+
+// 用户上传
+$app->post('/open/upload', function ($id) use ($app) {
+    $uploader = new PictureUploader($app);
+    return $uploader->upload();
 });
