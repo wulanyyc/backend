@@ -44,5 +44,11 @@ $app->post('/open/phone', function () use ($app) {
 // 用户上传
 $app->post('/open/upload', function () use ($app) {
     $uploader = new FileUploader($app);
-    return $uploader->upload();
+    $result = $uploader->upload();
+
+    if (!empty($result['uploaded'])) {
+        return $result['uploaded'];
+    } else {
+        return [];
+    }
 });
