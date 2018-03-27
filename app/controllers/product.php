@@ -4,16 +4,14 @@ use Shop\Model\Products;
 $app->post('/product/add', function () use ($app) {
     $params = json_decode($app->request->getRawBody(), true);
 
-    // return $params;
-
     $ar = new Products();
     $ar->main_img = $params['img_list'][0];
     foreach($params as $key => $value) {
         if (!empty($value)) {
-            $ar->$key = $value;
-        } else {
             if ($key == 'img_list') {
                 $ar->$key = json_encode($value);
+            } else {
+                $ar->$key = $value;
             }
         }
     }
