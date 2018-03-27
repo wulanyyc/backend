@@ -40,8 +40,8 @@ class FileUploader
 
     public function parseHash($hash)
     {
-        if (isset($this->prefix)) {
-            return date('Ymd', time()) . "/" . $this->prefix . $hash;
+        if (isset($this->uid)) {
+            return $this->uid . "/" . date('Ymd', time()) . "/" . $hash;
         } else {
             return date('Ymd', time()) . "/" . $hash;
         }
