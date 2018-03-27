@@ -8,15 +8,18 @@ $app->post('/product/add', function () use ($app) {
 
     $ar = new Products();
     $ar->main_img = $params['img_list'][0];
-    $ar->img_list = json_encode($params['img_list']);
     foreach($params as $key => $value) {
         if (!empty($value)) {
             $ar->$key = $value;
+        } else {
+            if ($key == 'img_list') {
+                $ar->$key = json_encode($value);
+            }
         }
     }
 
     // return $ar;
-    
+
     if ($ar->save()) {
         return $ar->id;
     } else {
