@@ -41,7 +41,7 @@ class FileUploader
     public function parseHash($hash)
     {
         if (isset($this->uid)) {
-            return $this->uid . "/" . date('Ymd', time()) . "/" . $hash;
+            return date('Ymd', time()) . "/" . $this->uid . "/" . $hash;
         } else {
             return date('Ymd', time()) . "/" . $hash;
         }

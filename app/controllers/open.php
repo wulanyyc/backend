@@ -52,3 +52,14 @@ $app->post('/open/upload/{id:\d+}', function ($id) use ($app) {
         return [];
     }
 });
+
+$app->post('/open/upload/logo', function () use ($app) {
+    $uploader = new FileUploader($app);
+    $result = $uploader->upload();
+
+    if (!empty($result['uploaded'])) {
+        return $result['uploaded'];
+    } else {
+        return [];
+    }
+});
