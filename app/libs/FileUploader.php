@@ -3,9 +3,7 @@
 class FileUploader
 {
     private $app;
-    public $max_size = 1048576; //10M
-    // public $max_width = 1920;
-    // public $max_height = 1200;
+    public $max_size = 10485760; //10M
 
     public static $allowed_mime_types = [
         'gif' => 'image/gif', 
@@ -50,13 +48,6 @@ class FileUploader
         if (isset($params['max_size'])) {
             $this->max_size = $params['max_size'];
         }
-
-        // if (isset($param['max_width'])) {
-        //     $this->max_width = $params['max_width'];
-        // }
-        // if (isset($param['max_height'])) {
-        //     $this->max_height = $params['max_height'];
-        // }
     }
 
     public function upload($params = [])
