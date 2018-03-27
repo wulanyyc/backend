@@ -15,7 +15,7 @@ $app->post('/product/add', function () use ($app) {
         }
     }
 
-    return $ar;
+    // return $ar;
     
     if ($ar->save()) {
         return $ar->id;
