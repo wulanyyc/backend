@@ -4,6 +4,8 @@ use Shop\Model\Products;
 $app->post('/product/add', function () use ($app) {
     $params = json_decode($app->request->getRawBody(), true);
 
+    return $params;
+
     $ar = new Products();
     $ar->main_img = $params['img_list'][0];
     $ar->img_list = json_encode($params['img_list']);
