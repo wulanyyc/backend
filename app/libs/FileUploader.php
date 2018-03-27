@@ -38,15 +38,19 @@ class FileUploader
         return null;
     }
 
-    public static function parseHash($hash)
+    public function parseHash($hash)
     {
-        return date('Ymd', time()) . "/" . $hash;
+        if (isset($this->prefix)) {
+            return date('Ymd', time()) . "/" . $this->prefix . $hash;
+        } else {
+            return date('Ymd', time()) . "/" . $hash;
+        }
     }
 
     private function parseParams($params)
     {
-        if (isset($params['max_size'])) {
-            $this->max_size = $params['max_size'];
+        foreach($params as $key => $value) {
+            $this->$key = $value;
         }
     }
 
@@ -93,7 +97,7 @@ class FileUploader
             // }
 
             $hash = md5_file($temp_name);
-            $filename = $app->config->file->path . self::parseHash($hash) . self::fileExtension($mime_type);
+            $filename = $app->config->file->path . $this->parseHash($hash) . self::fileExtension($mime_type);
             $app->logger->debug($filename);
 
             if (!file_exists($filename)) {
@@ -108,7 +112,7 @@ class FileUploader
             }
             
             $rows[] = [
-                'file_name' => self::parseHash($hash) . self::fileExtension($mime_type),
+                'file_name' => $this->parseHash($hash) . self::fileExtension($mime_type),
             ];
 
         }

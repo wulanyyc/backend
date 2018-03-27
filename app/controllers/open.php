@@ -42,9 +42,9 @@ $app->post('/open/phone', function () use ($app) {
 });
 
 // 用户上传
-$app->post('/open/upload', function () use ($app) {
+$app->post('/open/upload/{id:\d+}', function ($id) use ($app) {
     $uploader = new FileUploader($app);
-    $result = $uploader->upload();
+    $result = $uploader->upload(['prefix' => $id . "_"]);
 
     if (!empty($result['uploaded'])) {
         return $result['uploaded'];
