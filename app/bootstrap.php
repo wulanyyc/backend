@@ -82,16 +82,12 @@ function init_app($di)
     $app->before(function () use ($app) {
         ob_start();
 
-        // if (is_debugging($app)) {
-        //     return true;
-        // }
+        $requestUrl = $_SERVER['REQUEST_URI'];
+        if (preg_match('/^\/open\/.*/', $requestUrl) || $requestUrl == "/") {
+            return true;
+        }
 
-        // $requestUrl = $_SERVER['REQUEST_URI'];
-        // if (preg_match('/^\/open\/.*/', $requestUrl) || $requestUrl == "/") {
-        //     return true;
-        // }
-
-        // is_valid_access($app);
+        is_valid_access($app);
     });
 
     $app->after(function () use ($app) {
@@ -161,18 +157,16 @@ function is_valid_access($app)
 {
     $method = $app->request->getMethod();
     if ($method != 'OPTIONS' && $method != 'HEAD') {
-        $access_token = $app->request->getHeader('X_ACCESS_TOKEN');
+        $access_token = $app->request->getHeader('TOKEN');
 
-        if (!$access_token || !$access_id) {
+        if (!$access_token) {
             raise_bad_request($app);
         }
 
-        $token = $app->redis->get("token_" . $access_id);
-        if (empty($token) || $token != $access_token) {
+        $token = $app->redis->get($access_token);
+        if (empty($token)) {
             raise_unauthorized($app);
         }
-
-        $app->user_id = $access_id;
     }
 }
 
