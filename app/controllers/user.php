@@ -29,8 +29,8 @@ $app->post('/user/add', function () use ($app) {
 $app->post('/user/info', function () use ($app) {
     $params = json_decode($app->request->getRawBody(), true);
 
-    $resultStr = $app->redis->get($params['session']);
-    $result = json_decode($resultStr, true);
+    // $resultStr = $app->redis->get($params['session']);
+    // $result = json_decode($resultStr, true);
 
-    return $result;
+    return $params;
 });
