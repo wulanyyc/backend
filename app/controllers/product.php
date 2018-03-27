@@ -2,7 +2,7 @@
 use Shop\Model\Products;
 
 $app->post('/product/add', function () use ($app) {
-    $params = $app->request->getPost();
+    $params = json_decode($app->request->getRawBody(), true);
 
     return $params;
 
