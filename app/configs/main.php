@@ -7,7 +7,6 @@ return [
         'tcp://127.0.0.1',
     ],
     'mapper' => [],
-    'salt' => 'yyctest',
     'file' => [
         'path' => __DIR__ . "/../../public/files/",
     ],
