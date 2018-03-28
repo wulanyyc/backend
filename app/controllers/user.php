@@ -70,6 +70,7 @@ $app->get('/user/info/{id:\d+}', function ($id) use ($app) {
     return [
         'name' => $userInfo->name,
         'logo' => $userInfo->logo,
+        'money' => $userInfo->money,
     ];
 });
 
