@@ -11,7 +11,7 @@ $app->get('/open/session', function () use ($app) {
     if (isset($result['session_key'])) {
         $userInfo = Users::findFirst(['openid' => $result['openid']]);
         $key = md5($result['openid'] . $result['session_key']);
-        $app->redis->setex($key, 86400 * 2, json_encode($result));
+        $app->redis->setex($key, 86400, json_encode($result));
 
         $ret = [];
         $ret['session'] = $key;

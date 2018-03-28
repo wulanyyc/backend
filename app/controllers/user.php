@@ -64,13 +64,3 @@ $app->post('/user/upload/{id:\d+}', function ($id) use ($app) {
     }
 });
 
-$app->get('/user/info/{id:\d+}', function ($id) use ($app) {
-    $userInfo = Users::findFirst($id);
-
-    return [
-        'name' => $userInfo->name,
-        'logo' => $userInfo->logo,
-        'money' => $userInfo->money,
-    ];
-});
-

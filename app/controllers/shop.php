@@ -1,26 +1,24 @@
 <?php
-use Shop\Model\Shops;
+use Shop\Model\Products;
 use Shop\Model\Users;
 
-// TODO店铺唯一性检测
-$app->post('/shop/add', function () use ($app) {
-    $params = json_decode($app->request->getRawBody(), true);
-    $userInfo = $app->util->getUser($app, $params['session']);
-    $openid   = $userInfo['openid'];
-    $user = Users::findFirst(['openid' => $openid]);
-    $uid  = $user->id;
+$app->get('/shop/info/{id:\d+}', function ($id) use ($app) {
+    $userInfo = Users::findFirst($id);
 
-    unset($params['session']);
-
-    $ar = new Shops();
-    $ar->uid = $uid;
-    foreach($params as $key => $value) {
-        $ar->$key = $value;
+    $product = Products::find(['uid' => $id]);
+    $productNum = count($product);
+    $productCategory = [];
+    if ($productNum > 0) {
+        foreach($product as $value) {
+            $productCategory[$value] = $value;
+        }
     }
 
-    if ($ar->save() == true) {
-        return $ar->id;
-    } else {
-        return 0;
-    }
+    return [
+        'name' => $userInfo->name,
+        'logo' => $userInfo->logo,
+        'money' => $userInfo->money,
+        'productCategory' => $productCategory,
+        'productNum' => $productNum,
+    ];
 });
