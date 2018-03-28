@@ -10,7 +10,7 @@ $app->get('/shop/info/{id:\d+}', function ($id) use ($app) {
     $productCategory = [];
     if ($productNum > 0) {
         foreach($product as $value) {
-            $productCategory[$value] = $value;
+            $productCategory[$value->status] = $value;
         }
     }
 
