@@ -64,12 +64,12 @@ $app->post('/user/upload/{id:\d+}', function ($id) use ($app) {
     }
 });
 
-$app->post('/user/info', function () use ($app) {
-    $params = json_decode($app->request->getRawBody(), true);
+$app->get('/user/info/{id:\d+}', function ($id) use ($app) {
+    $userInfo = Users::findFirst($id);
 
-    // $resultStr = $app->redis->get($params['session']);
-    // $result = json_decode($resultStr, true);
-
-    return $params;
+    return [
+        'name' => $userInfo->name,
+        'logo' => $userInfo->logo,
+    ];
 });
 

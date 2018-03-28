@@ -25,30 +25,3 @@ $app->get('/open/session', function () use ($app) {
     }
 });
 
-
-// $app->post('/open/phone', function () use ($app) {
-//     $params = json_decode($app->request->getRawBody(), true);
-
-//     $user = $app->util->getUser($app, $params['session']);
-//     $pc = new WxBizDataCrypt($app->config->wxconfig['appid'], $user['session_key']);
-//     $errCode = $pc->decryptData($params['encryptedData'], $params['iv'], $data);
-
-//     if ($errCode == 0) {
-//         $ret = json_decode($data, true);
-//         return $ret['purePhoneNumber'];
-//     } else {
-//         return $errCode;
-//     }
-// });
-
-
-// $app->post('/open/upload/logo', function () use ($app) {
-//     $uploader = new FileUploader($app);
-//     $result = $uploader->upload();
-
-//     if (!empty($result['uploaded'])) {
-//         return $result['uploaded'];
-//     } else {
-//         return [];
-//     }
-// });
