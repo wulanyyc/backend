@@ -25,6 +25,6 @@ $app->post('/product/add', function () use ($app) {
 
 
 $app->get('/product/info/{id:\d+}', function ($id) use ($app) {
-    $result = Products::findFirst(['id' => $id]);
+    $result = Products::findFirst($id);
     return $result;
 });
