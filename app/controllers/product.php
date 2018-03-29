@@ -6,6 +6,12 @@ $app->post('/product/add', function () use ($app) {
 
     $ar = new Products();
     $ar->main_img = $params['img_list'][0];
+
+    $auditFlag = $app->Util::getAuditFlag($params['uid']);
+    if ($auditFlag == 1) {
+        $ar->status = 1;
+    }
+
     foreach($params as $key => $value) {
         if (!empty($value)) {
             if ($key == 'img_list') {
@@ -25,10 +31,14 @@ $app->post('/product/add', function () use ($app) {
 
 $app->post('/product/edit', function () use ($app) {
     $params = json_decode($app->request->getRawBody(), true);
+    $auditFlag = $app->Util::getAuditFlag($params['uid']);
 
     if ($params['id'] == 0){
         $ar = new Products();
         $ar->main_img = $params['img_list'][0];
+        if ($auditFlag == 1) {
+            $ar->status = 1;
+        }
         foreach($params as $key => $value) {
             if (!empty($value)) {
                 if ($key == 'img_list') {
@@ -48,6 +58,10 @@ $app->post('/product/edit', function () use ($app) {
         $ar = Products::findFirst($params['id']);
         unset($params['id']);
         $ar->main_img = $params['img_list'][0];
+        if ($auditFlag == 1) {
+            $ar->status = 1;
+        }
+
         foreach($params as $key => $value) {
             if (!empty($value)) {
                 if ($key == 'img_list') {

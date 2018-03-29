@@ -1,4 +1,5 @@
 <?php
+use Shop\Model\Users;
 
 class Util
 {
@@ -29,18 +30,6 @@ class Util
         return $data;
     }
 
-    /**
-     * 从数组中获取数据
-     * @param array $array    数据集
-     * @param mixed $field    获取的键
-     * @param mixed $default  无数据的默认值
-     * @return mixed
-     */
-    public function arrayGet($array, $field, $default = null)
-    {
-        return isset($array[$field]) ? $array[$field] : $default;
-    }
-
     public static function getWxSessionId($app, $appid, $secret, $code) {
         $url = 'https://api.weixin.qq.com/sns/jscode2session?appid='. $appid .'&secret='. $secret .'&js_code='. $code .'&grant_type=authorization_code';
 
@@ -50,5 +39,9 @@ class Util
     public static function getUser($app, $session) {
         $result = $app->redis->get($session);
         return json_decode($result, true);
+    }
+
+    public static function getAuditFlag($uid) {
+        return Users::findFirst($uid)->auditFlag;
     }
 }
