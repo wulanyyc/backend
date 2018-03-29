@@ -71,3 +71,10 @@ $app->get('/product/unsale/{id:\d+}', function ($id) use ($app) {
     $result->save();
     return $result->id;
 });
+
+$app->get('/product/del/{id:\d+}', function ($id) use ($app) {
+    $result = Products::findFirst($id);
+    $result->status = 3;
+    $result->save();
+    return $result->id;
+});
