@@ -3,7 +3,7 @@ use Shop\Model\Products;
 
 $app->post('/product/edit', function () use ($app) {
     $params = json_decode($app->request->getRawBody(), true);
-    $auditFlag = $app->Util::getAuditFlag($params['uid']);
+    $auditFlag = $app->util->getAuditFlag($params['uid']);
 
     if ($params['id'] == 0){
         $ar = new Products();
