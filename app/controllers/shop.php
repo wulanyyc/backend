@@ -5,8 +5,7 @@ use Shop\Model\Users;
 $app->get('/shop/info/{id:\d+}', function ($id) use ($app) {
     $userInfo = Users::findFirst($id);
 
-    $ar = new Products();
-    $product = $ar->getModelsManager()->executeQuery("select * from Products where uid=" . $id . ' and status != 3');
+    $product = Products::find("uid=" . $id . " and status != 3");
     $productNum = count($product);
     $productCategory = [];
     if ($productNum > 0) {
