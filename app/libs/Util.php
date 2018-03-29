@@ -42,6 +42,6 @@ class Util
     }
 
     public static function getAuditFlag($uid) {
-        return Users::findFirst($uid)->auditFlag;
+        return Users::findFirst($uid)->auditflag;
     }
 }

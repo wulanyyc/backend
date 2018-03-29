@@ -1,34 +1,6 @@
 <?php
 use Shop\Model\Products;
 
-$app->post('/product/add', function () use ($app) {
-    $params = json_decode($app->request->getRawBody(), true);
-
-    $ar = new Products();
-    $ar->main_img = $params['img_list'][0];
-
-    $auditFlag = $app->Util::getAuditFlag($params['uid']);
-    if ($auditFlag == 1) {
-        $ar->status = 1;
-    }
-
-    foreach($params as $key => $value) {
-        if (!empty($value)) {
-            if ($key == 'img_list') {
-                $ar->$key = json_encode($value);
-            } else {
-                $ar->$key = $value;
-            }
-        }
-    }
-
-    if ($ar->save()) {
-        return $ar->id;
-    } else {
-        return 0;
-    }
-});
-
 $app->post('/product/edit', function () use ($app) {
     $params = json_decode($app->request->getRawBody(), true);
     $auditFlag = $app->Util::getAuditFlag($params['uid']);
