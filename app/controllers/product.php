@@ -57,3 +57,17 @@ $app->get('/product/info/{id:\d+}', function ($id) use ($app) {
     $result = Products::findFirst($id);
     return $result;
 });
+
+$app->get('/product/sale/{id:\d+}', function ($id) use ($app) {
+    $result = Products::findFirst($id);
+    $result->status = 1;
+    $result->save();
+    return $result->id;
+});
+
+$app->get('/product/unsale/{id:\d+}', function ($id) use ($app) {
+    $result = Products::findFirst($id);
+    $result->status = 0;
+    $result->save();
+    return $result->id;
+});
