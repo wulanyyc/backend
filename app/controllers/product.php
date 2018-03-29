@@ -67,7 +67,7 @@ $app->get('/product/sale/{id:\d+}', function ($id) use ($app) {
 
 $app->get('/product/unsale/{id:\d+}', function ($id) use ($app) {
     $result = Products::findFirst($id);
-    $result->status = 0;
+    $result->status = 2;
     $result->save();
     return $result->id;
 });
