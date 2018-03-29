@@ -22,3 +22,14 @@ $app->get('/shop/info/{id:\d+}', function ($id) use ($app) {
         'productNum' => $productNum,
     ];
 });
+
+
+$app->get('/shop/edit/{id:\d+}', function ($id) use ($app) {
+    $userInfo = Users::findFirst($id);
+
+    return [
+        'name' => $userInfo->name,
+        'logo' => $userInfo->logo,
+        'desc' => $userInfo->desc
+    ];
+});
