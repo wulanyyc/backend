@@ -64,3 +64,10 @@ $app->post('/user/upload/{id:\d+}', function ($id) use ($app) {
     }
 });
 
+
+// 用户信息
+$app->post('/user/qr/{id:\d+}', function ($id) use ($app) {
+    $userInfo = Users::findFirst($id);
+
+    return $userInfo->serviceQr;
+});
