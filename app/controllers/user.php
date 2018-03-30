@@ -71,3 +71,12 @@ $app->get('/user/qr/{id:\d+}', function ($id) use ($app) {
 
     return $userInfo->serviceQr;
 });
+
+$app->post('/user/qr/edit', function () use ($app) {
+    $params = json_decode($app->request->getRawBody(), true);
+    $ar = Users::findFirst($params['uid']);
+    $ar->serviceQr = $params['serviceQr'];
+    $ar->save();
+
+    return $ar->id;
+});
