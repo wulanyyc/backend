@@ -25,3 +25,8 @@ $app->get('/open/session', function () use ($app) {
     }
 });
 
+
+
+$app->get('/open/banks', function () use ($app) {
+    return $app->config->banks;
+});

@@ -12,6 +12,5 @@ $app->get('/money/init/{id:\d+}', function ($id) use ($app) {
     return [
         'cards' => $arr,
         'money' => $userInfo->money,
-        'banks' => $app->config->banks,
     ];
 });
