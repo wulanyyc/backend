@@ -7,10 +7,12 @@ $app->get('/money/init/{id:\d+}', function ($id) use ($app) {
     $result = UserCards::find(['uid' => $id]);
     $userInfo = Users::findFirst($id);
 
-    $arr = $app->util->objectToArray($result);
+    return $result;
 
-    return [
-        'cards' => $arr,
-        'money' => $userInfo->money,
-    ];
+    // $arr = $app->util->objectToArray($result);
+
+    // return [
+    //     'cards' => $arr,
+    //     'money' => $userInfo->money,
+    // ];
 });
