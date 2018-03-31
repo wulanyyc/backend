@@ -11,5 +11,5 @@ return [
         'path' => __DIR__ . "/../../public/files/",
     ],
     'wxconfig' => require(__DIR__ . "/wx.php"),
-    'cards' => require(__DIR__ . "/cards.php"),
+    'banks' => require(__DIR__ . "/banks.php"),
 ];
