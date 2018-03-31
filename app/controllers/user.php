@@ -41,6 +41,7 @@ $app->post('/user/phone', function () use ($app) {
     }
 });
 
+// 上传店铺logo
 $app->post('/user/upload/logo', function () use ($app) {
     $uploader = new FileUploader($app);
     $result = $uploader->upload();
@@ -79,4 +80,28 @@ $app->post('/user/qr/edit', function () use ($app) {
     $ar->save();
 
     return $ar->id;
+});
+
+// 用户上传
+$app->post('/user/upload/{id:\d+}', function ($id) use ($app) {
+    $uploader = new FileUploader($app);
+    $result = $uploader->upload(['uid' => $id]);
+
+    if (!empty($result['uploaded'])) {
+        return $result['uploaded'];
+    } else {
+        return [];
+    }
+});
+
+// 用户上传
+$app->post('/user/{id:\d+}', function ($id) use ($app) {
+    $uploader = new FileUploader($app);
+    $result = $uploader->upload(['uid' => $id]);
+
+    if (!empty($result['uploaded'])) {
+        return $result['uploaded'];
+    } else {
+        return [];
+    }
 });
