@@ -15,8 +15,8 @@ $app->get('/open/session', function () use ($app) {
         $ret = [];
         $ret['session'] = $key;
 
-        $userInfo = Users::findFirst('openid="' . $result['openid'] . '"')->toArray();
-        if (empty($userInfo)) {
+        $userInfo = Users::findFirst('openid="' . $result['openid'] . '"');
+        if (!$userInfo) {
             $ar = new Users();
             $ar->openid = $result['openid'];
             $ar->unionid = $result['unionid'];
