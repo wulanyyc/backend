@@ -9,13 +9,21 @@ $app->get('/open/session', function () use ($app) {
     $result = $app->util->getWxSessionId($app, $wxconfig['appid'], $wxconfig['appsecret'], $code);
 
     if (isset($result['session_key'])) {
-        $userInfo = Users::findFirst(['openid' => $result['openid']]);
         $key = md5($result['openid'] . $result['session_key']);
         $app->redis->setex($key, 86400, json_encode($result));
 
         $ret = [];
         $ret['session'] = $key;
-        if (!empty($userInfo)) {
+
+        $userInfo = Users::findFirst(['openid' => $result['openid']]);
+        if (empty($userInfo)) {
+            $ar = new Users();
+            $ar->openid = $result['openid'];
+            $ar->unionid = $result['unionid'];
+            $ar->save();
+
+            $ret['uid'] = $ar->id;
+        } else {
             $ret['uid'] = $userInfo->id;
         }
 
@@ -24,7 +32,6 @@ $app->get('/open/session', function () use ($app) {
         return '';
     }
 });
-
 
 
 $app->get('/open/banks', function () use ($app) {
