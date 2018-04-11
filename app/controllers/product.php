@@ -1,6 +1,27 @@
 <?php
 use Shop\Model\Products;
 
+$app->get('/product/list/{id:\d+}', function ($id) use ($app) {
+    $userInfo = Users::findFirst($id);
+
+    $product = Products::find("uid=" . $id . " and status != 3");
+    $productNum = count($product);
+    $productCategory = [];
+    if ($productNum > 0) {
+        foreach($product as $value) {
+            $productCategory[$value->status][] = $value;
+        }
+    }
+
+    return [
+        'name' => $userInfo->name,
+        'logo' => $userInfo->logo,
+        'money' => $userInfo->money,
+        'productCategory' => $productCategory,
+        'productNum' => $productNum,
+    ];
+});
+
 $app->post('/product/edit', function () use ($app) {
     $params = json_decode($app->request->getRawBody(), true);
     $auditFlag = $app->util->getAuditFlag($params['uid']);
