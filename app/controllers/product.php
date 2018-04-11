@@ -1,5 +1,6 @@
 <?php
 use Shop\Model\Products;
+use Shop\Model\Users;
 
 $app->get('/product/list/{id:\d+}', function ($id) use ($app) {
     $userInfo = Users::findFirst($id);
