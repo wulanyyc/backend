@@ -25,6 +25,19 @@ $app->post('/user/add', function () use ($app) {
     }
 });
 
+// 用户信息更新
+$app->post('/user/update/{id:\d+}', function ($id) use ($app) {
+    $params = json_decode($app->request->getRawBody(), true);
+    $ar = Users::findFirst('id=' . $id);
+    $ar->nick_name = $params['nickName'];
+    $ar->avatar_url = $params['avatarUrl'];
+    $ar->city = $params['city'];
+    $ar->country = $params['country'];
+    $ar->province = $params['province'];
+    $ar->gender = $params['gender'];
+    $ar->save();
+});
+
 
 $app->post('/user/phone', function () use ($app) {
     $params = json_decode($app->request->getRawBody(), true);
