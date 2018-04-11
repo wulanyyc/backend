@@ -15,8 +15,6 @@ $app->get('/product/list/{id:\d+}', function ($id) use ($app) {
     }
 
     return [
-        'name' => $userInfo->name,
-        'logo' => $userInfo->logo,
         'money' => $userInfo->money,
         'productCategory' => $productCategory,
         'productNum' => $productNum,

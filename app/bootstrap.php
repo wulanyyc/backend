@@ -112,11 +112,11 @@ function init_app($di)
         }
         
         $app->response->setStatusCode(500);
-        if (is_debugging($app)) {
+        // if (is_debugging($app)) {
             send_response($app, json_encode(['error' => $exception->getMessage()]));
-        } else {
-            send_response($app, json_encode(['error' => 'service error']));
-        }
+        // } else {
+        //     send_response($app, json_encode(['error' => 'service error']));
+        // }
     });
 
     $app->get('/version', function () {
