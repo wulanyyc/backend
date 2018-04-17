@@ -28,8 +28,8 @@ $app->get('/shop/edit/{id:\d+}', function ($id) use ($app) {
     $userInfo = Users::findFirst($id);
 
     return [
-        'name' => $userInfo->name,
-        'logo' => $userInfo->logo,
-        'desc' => $userInfo->desc
+        'name' => $userInfo->shop_name ? $userInfo->shop_name : $userInfo->nick_name,
+        'logo' => $userInfo->shop_avatar_url ? $userInfo->shop_avatar_url : $userInfo->avatar_url,
+        'desc' => $userInfo->shop_desc
     ];
 });
