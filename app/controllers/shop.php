@@ -35,7 +35,7 @@ $app->get('/shop/edit/init/{id:\d+}', function ($id) use ($app) {
 });
 
 
-$app->get('/shop/edit/{id:\d+}', function ($id) use ($app) {
+$app->post('/shop/edit/{id:\d+}', function ($id) use ($app) {
     $userInfo = Users::findFirst($id);
 
     $params = json_decode($app->request->getRawBody(), true);
