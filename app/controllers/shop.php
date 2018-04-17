@@ -15,8 +15,8 @@ $app->get('/shop/info/{id:\d+}', function ($id) use ($app) {
     }
 
     return [
-        'name' => $userInfo->name,
-        'logo' => $userInfo->logo,
+        'name' => $userInfo->shop_name ? $userInfo->shop_name : $userInfo->nick_name,
+        'logo' => $userInfo->shop_avatar_url ? $userInfo->shop_avatar_url : $userInfo->avatar_url,
         'money' => $userInfo->money,
         'productCategory' => $productCategory,
         'productNum' => $productNum,
