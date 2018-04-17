@@ -24,7 +24,7 @@ $app->get('/shop/info/{id:\d+}', function ($id) use ($app) {
 });
 
 
-$app->get('/shop/edit/{id:\d+}', function ($id) use ($app) {
+$app->get('/shop/edit/init/{id:\d+}', function ($id) use ($app) {
     $userInfo = Users::findFirst($id);
 
     return [
@@ -32,4 +32,21 @@ $app->get('/shop/edit/{id:\d+}', function ($id) use ($app) {
         'logo' => $userInfo->shop_avatar_url ? $userInfo->shop_avatar_url : $userInfo->avatar_url,
         'desc' => $userInfo->shop_desc
     ];
+});
+
+
+$app->get('/shop/edit/{id:\d+}', function ($id) use ($app) {
+    $userInfo = Users::findFirst($id);
+
+    $params = json_decode($app->request->getRawBody(), true);
+
+    foreach($params as $key => $value) {
+        $userInfo->shop_name = $value['name'];
+        $userInfo->shop_desc = $value['desc'];
+        $userInfo->shop_avatar_url = $value['logo'];
+    }
+
+    $userInfo->save();
+
+    return 1;
 });
