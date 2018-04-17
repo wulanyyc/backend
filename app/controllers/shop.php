@@ -40,11 +40,9 @@ $app->post('/shop/edit/{id:\d+}', function ($id) use ($app) {
 
     $params = json_decode($app->request->getRawBody(), true);
 
-    foreach($params as $key => $value) {
-        $userInfo->shop_name = $value['name'];
-        $userInfo->shop_desc = $value['desc'];
-        $userInfo->shop_avatar_url = $value['logo'];
-    }
+    $userInfo->shop_name = $params['name'];
+    $userInfo->shop_desc = $params['desc'];
+    $userInfo->shop_avatar_url = $params['logo'];
 
     $userInfo->save();
 
