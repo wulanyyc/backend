@@ -1,6 +1,7 @@
 <?php
 use Shop\Model\Products;
 use Shop\Model\Users;
+use Shop\Model\UserCards;
 
 $app->get('/shop/info/{id:\d+}', function ($id) use ($app) {
     $userInfo = Users::findFirst($id);
@@ -46,5 +47,21 @@ $app->post('/shop/edit/{id:\d+}', function ($id) use ($app) {
 
     $userInfo->save();
 
+    return 1;
+});
+
+$app->post('/shop/card/{id:\d+}', function ($id) use ($app) {
+    $params = json_decode($app->request->getRawBody(), true);
+    return $params;
+
+    $userInfo = Users::findFirst($id);
+
+    $uc = UserCards::findFirst("uid=" . $id);
+    if (!$uc) {
+
+        // throw new BusinessException(1000, "参数错误");
+    } else {
+
+    }
     return 1;
 });
