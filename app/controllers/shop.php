@@ -50,18 +50,27 @@ $app->post('/shop/edit/{id:\d+}', function ($id) use ($app) {
     return 1;
 });
 
+
 $app->post('/shop/card/{id:\d+}', function ($id) use ($app) {
     $params = json_decode($app->request->getRawBody(), true);
-    return $params;
 
     $userInfo = Users::findFirst($id);
 
     $uc = UserCards::findFirst("uid=" . $id);
     if (!$uc) {
-
-        // throw new BusinessException(1000, "参数错误");
+        $ar = new UserCards();
+        $ar->user_name = $params['name'];
+        $ar->card_num = $params['card_number'];
+        $ar->bank_num = $params['bank']['id'];
+        $ar->bank_name = $params['bank']['name'];
+        $ar->save();
     } else {
-
+        $uc->user_name = $params['name'];
+        $uc->card_num = $params['card_number'];
+        $uc->bank_num = $params['bank']['id'];
+        $uc->bank_name = $params['bank']['name'];
+        $uc->save();
     }
+
     return 1;
 });
