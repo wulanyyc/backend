@@ -29,7 +29,7 @@ $app->get('/open/session', function () use ($app) {
 
         return $ret;
     } else {
-        return '';
+        return [];
     }
 });
 

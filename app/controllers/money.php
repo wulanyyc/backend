@@ -4,13 +4,18 @@ use Shop\Model\Users;
 
 //用户认证（手机动态登录）
 $app->get('/money/init/{id:\d+}', function ($id) use ($app) {
-    $result = UserCards::find(['uid' => $id]);
+    $result = UserCards::findFirst(['uid' => $id]);
+
+    if (!$result) {
+        $card = $result->toArray();
+    } else {
+        $card = [];
+    }
+
     $userInfo = Users::findFirst($id);
 
-    $arr = $app->util->objectToArray($result);
-
     return [
-        'cards' => $arr,
+        'card' => $card,
         'money' => $userInfo->money,
     ];
 });
