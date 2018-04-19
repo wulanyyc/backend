@@ -6,7 +6,7 @@ use Shop\Model\Users;
 $app->get('/money/init/{id:\d+}', function ($id) use ($app) {
     $result = UserCards::findFirst(['uid' => $id]);
 
-    if (!$result) {
+    if ($result) {
         $card = $result->toArray();
     } else {
         $card = [];
